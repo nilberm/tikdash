@@ -1,0 +1,25 @@
+{
+  "name": "tikdash",
+  "private": true,
+  "packageManager": "npm@10.2.4",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "dev:web": "turbo run dev --filter=@tikdash/web",
+    "dev:api": "turbo run dev --filter=@tikdash/api",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "prettier": "latest",
+    "turbo": "latest",
+    "typescript": "latest"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.45.2"
+  }
+}

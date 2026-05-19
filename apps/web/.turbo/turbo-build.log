@@ -1,0 +1,31 @@
+
+> @tikdash/web@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.35
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/7) ...
+   Generating static pages (1/7) 
+   Generating static pages (3/7) 
+   Generating static pages (5/7) 
+ ✓ Generating static pages (7/7)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                              Size     First Load JS
+┌ ○ /                                    794 B          99.7 kB
+├ ○ /_not-found                          873 B          88.2 kB
+├ ○ /dashboard                           58.1 kB         179 kB
+└ ○ /login                               3.44 kB         118 kB
++ First Load JS shared by all            87.3 kB
+  ├ chunks/1dd3208c-ec7083c0bfe2f77c.js  53.6 kB
+  ├ chunks/528-3c3d1ac566baacf7.js       31.7 kB
+  └ other shared chunks (total)          1.95 kB
+
+
+○  (Static)  prerendered as static content
+
