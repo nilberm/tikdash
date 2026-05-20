@@ -7,12 +7,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Lock, Mail, Sparkles, Loader2 } from "lucide-react";
+import { Lock, Mail, Sparkles, Loader2, Eye, EyeOff } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -74,8 +75,8 @@ export default function LoginPage() {
                 <Label htmlFor="email" className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">
                   E-mail
                 </Label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4.5 w-4.5 text-zinc-500" />
+                <div className="relative flex items-center">
+                  <Mail className="absolute left-3 h-4.5 w-4.5 text-zinc-500" />
                   <Input
                     id="email"
                     type="email"
@@ -84,29 +85,39 @@ export default function LoginPage() {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     disabled={loading}
-                    className="pl-10 bg-[#121214] border-[#222] text-white focus:border-[#00f2fe] focus:ring-1 focus:ring-[#00f2fe]/20 rounded-xl transition-all duration-300"
+                    className="pl-10 bg-[#121214] border-[#222] text-white focus:border-[#00f2fe] focus:ring-1 focus:ring-[#00f2fe]/20 rounded-xl transition-all duration-300 h-11"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="password" className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">
-                    Senha
-                  </Label>
-                </div>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4.5 w-4.5 text-zinc-500" />
+                <Label htmlFor="password" className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">
+                  Senha
+                </Label>
+                <div className="relative flex items-center">
+                  <Lock className="absolute left-3 h-4.5 w-4.5 text-zinc-500" />
                   <Input
                     id="password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     disabled={loading}
-                    className="pl-10 bg-[#121214] border-[#222] text-white focus:border-[#fe0979] focus:ring-1 focus:ring-[#fe0979]/20 rounded-xl transition-all duration-300"
+                    className="pl-10 pr-10 bg-[#121214] border-[#222] text-white focus:border-[#fe0979] focus:ring-1 focus:ring-[#fe0979]/20 rounded-xl transition-all duration-300 h-11"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    disabled={loading}
+                    className="absolute right-3 text-zinc-500 hover:text-white transition-colors p-1"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4.5 w-4.5" />
+                    ) : (
+                      <Eye className="h-4.5 w-4.5" />
+                    )}
+                  </button>
                 </div>
               </div>
 

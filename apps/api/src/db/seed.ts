@@ -9,33 +9,25 @@ import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
+dotenv.config({ path: path.resolve(__dirname, '../../../../.env') });
 
 async function seed() {
-  const email = 'admin@tikdash.local';
+  const email = process.env.SEED_USER_EMAIL || 'nilber@tikdash.com';
+  const password = process.env.SEED_USER_PASSWORD || 'changeme123';
   
-  // Basic Better Auth password hash implementation or standard hash (just a placeholder if using plain passwords isn't allowed)
-  // To use better-auth with email/password, usually we create a user using the auth instance directly, 
-  // but doing it directly in DB is also fine for seed.
-  // Better Auth email/password uses bcrypt.
+  console.log(`Seeding initial user (${email})...`);
   
-  console.log('Seeding initial user...');
-  
-  // We can just use the auth client if we want, but directly inserting is faster:
-  // Using a known hash for "password123":
-  // Wait, better auth might expect the password in the accounts table or a specific format.
-  // Let's actually use the auth instance to create the user to ensure it's correct.
   const { auth } = await import('../auth.js');
   
   try {
     const user = await auth.api.signUpEmail({
       body: {
-        name: 'Admin',
+        name: 'Nilber Mota',
         email,
-        password: 'password123',
+        password,
       }
     });
-    console.log('User created:', user);
+    console.log('User created successfully:', user);
   } catch (err: any) {
     if (err.message?.includes('already exists') || err.status === 400) {
       console.log('User already exists, skipping.');

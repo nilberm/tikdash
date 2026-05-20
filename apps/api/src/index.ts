@@ -24,6 +24,7 @@ app.use('*', cors({
 }));
 
 import { accountsRouter } from './routes/accounts.js';
+import { tiktokAuthRouter } from './routes/tiktok-auth.js';
 
 app.get('/', (c) => {
   return c.text('TikDash API');
@@ -36,6 +37,9 @@ app.on(['POST', 'GET'], '/api/auth/**', (c) => {
 
 // Accounts CRUD
 app.route('/accounts', accountsRouter);
+
+// TikTok Auth & Integration
+app.route('/tiktok', tiktokAuthRouter);
 
 const port = process.env.PORT ? parseInt(process.env.PORT) : 8787;
 console.log(`Server is running on port ${port}`);

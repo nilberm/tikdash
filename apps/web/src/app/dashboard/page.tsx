@@ -13,7 +13,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
   Plus, Trash2, Edit3, Key, LogOut, Loader2, Sparkles, User, Mail, 
-  Copy, Check, ShieldAlert, ShieldCheck
+  Copy, Check, ShieldAlert, ShieldCheck, Eye, EyeOff
 } from "lucide-react";
 
 interface TikTokAccount {
@@ -53,6 +53,10 @@ export default function DashboardPage() {
   const [revealedPassword, setRevealedPassword] = useState<string | null>(null);
   const [revealError, setRevealError] = useState("");
   const [copied, setCopied] = useState(false);
+
+  // TikTok Password visibility states
+  const [showTikTokPassword, setShowTikTokPassword] = useState(false);
+  const [showEditTikTokPassword, setShowEditTikTokPassword] = useState(false);
 
   // Mutation error states
   const [addError, setAddError] = useState("");
@@ -139,6 +143,7 @@ export default function DashboardPage() {
     setPassword("");
     setType("real");
     setAddError("");
+    setShowTikTokPassword(false);
   };
 
   const handleAddSubmit = (e: React.FormEvent) => {
@@ -300,7 +305,7 @@ export default function DashboardPage() {
                 key={account.id} 
                 className="border-[#1e2025] bg-[#0c0c0e]/80 hover:bg-[#101217] backdrop-blur-xl shadow-lg rounded-2xl overflow-hidden hover:border-[#333] transition-all duration-300 group flex flex-col justify-between"
               >
-                <div>
+                <div onClick={() => router.push(`/accounts/${account.id}`)} className="cursor-pointer">
                   <div className="h-1 w-full bg-gradient-to-r opacity-0 group-hover:opacity-100 transition-opacity duration-500 from-[#00f2fe] to-[#fe0979]" />
                   <CardHeader className="pb-3 flex flex-row items-start justify-between">
                     <div className="space-y-1">
@@ -365,6 +370,7 @@ export default function DashboardPage() {
                         setPassword("");
                         setType(account.type);
                         setEditError("");
+                        setShowEditTikTokPassword(false);
                         setIsEditOpen(true);
                       }}
                       className="h-8.5 w-8.5 text-zinc-400 hover:text-white rounded-xl hover:bg-zinc-800"
@@ -449,14 +455,27 @@ export default function DashboardPage() {
 
             <div className="space-y-1.5">
               <Label htmlFor="password" className="text-xs font-semibold text-zinc-400 uppercase">Senha da Conta</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Senha de login do TikTok"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="bg-[#121214] border-[#222] text-white focus:border-[#00f2fe] focus:ring-1 focus:ring-[#00f2fe]/20 rounded-xl"
-              />
+              <div className="relative flex items-center">
+                <Input
+                  id="password"
+                  type={showTikTokPassword ? "text" : "password"}
+                  placeholder="Senha de login do TikTok"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="pr-10 bg-[#121214] border-[#222] text-white focus:border-[#00f2fe] focus:ring-1 focus:ring-[#00f2fe]/20 rounded-xl"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowTikTokPassword(!showTikTokPassword)}
+                  className="absolute right-3 text-zinc-500 hover:text-white transition-colors p-1"
+                >
+                  {showTikTokPassword ? (
+                    <EyeOff className="h-4.5 w-4.5" />
+                  ) : (
+                    <Eye className="h-4.5 w-4.5" />
+                  )}
+                </button>
+              </div>
             </div>
 
             <div className="space-y-1.5">
@@ -547,14 +566,27 @@ export default function DashboardPage() {
 
             <div className="space-y-1.5">
               <Label htmlFor="edit-password" className="text-xs font-semibold text-zinc-400 uppercase">Nova Senha (opcional)</Label>
-              <Input
-                id="edit-password"
-                type="password"
-                placeholder="Deixe em branco para manter a atual"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="bg-[#121214] border-[#222] text-white focus:border-purple-400 focus:ring-1 focus:ring-purple-400/20 rounded-xl"
-              />
+              <div className="relative flex items-center">
+                <Input
+                  id="edit-password"
+                  type={showEditTikTokPassword ? "text" : "password"}
+                  placeholder="Deixe em branco para manter a atual"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="pr-10 bg-[#121214] border-[#222] text-white focus:border-purple-400 focus:ring-1 focus:ring-purple-400/20 rounded-xl"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowEditTikTokPassword(!showEditTikTokPassword)}
+                  className="absolute right-3 text-zinc-500 hover:text-white transition-colors p-1"
+                >
+                  {showEditTikTokPassword ? (
+                    <EyeOff className="h-4.5 w-4.5" />
+                  ) : (
+                    <Eye className="h-4.5 w-4.5" />
+                  )}
+                </button>
+              </div>
             </div>
 
             <div className="space-y-1.5">
@@ -623,7 +655,7 @@ export default function DashboardPage() {
                 <Button
                   variant="outline"
                   onClick={() => setIsRevealOpen(false)}
-                  className="border-[#222] hover:bg-zinc-800 text-white rounded-xl h-10"
+                  className="border-[#222] bg-[#121214] hover:bg-[#1a1a1f] text-white hover:text-white rounded-xl h-10 px-4"
                 >
                   Fechar
                 </Button>

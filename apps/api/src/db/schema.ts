@@ -55,6 +55,11 @@ export const tiktokAccounts = pgTable('tiktok_accounts', {
   password: text('password'),
   type: text('type').default('real'),
   isActive: boolean('isActive').default(true),
+  tiktokUserId: text('tiktokUserId'),
+  accessToken: text('accessToken'),
+  refreshToken: text('refreshToken'),
+  tokenExpiresAt: timestamp('tokenExpiresAt'),
+  limitedMetrics: boolean('limitedMetrics').default(false),
   createdAt: timestamp('createdAt').defaultNow()
 });
 
@@ -82,3 +87,9 @@ export const videos = pgTable('videos', {
   shares: integer('shares').default(0),
   createdAt: timestamp('createdAt').defaultNow()
 });
+
+// Singular aliases for Better Auth Drizzle adapter
+export const user = users;
+export const session = sessions;
+export const account = accounts;
+export const verification = verifications;
